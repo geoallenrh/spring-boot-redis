@@ -3,6 +3,9 @@ package com.codeusingjava.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class SpringSessionController {
+
+	Logger logger = LoggerFactory.getLogger(SpringSessionController.class);
 
 	@GetMapping("/")
 	public String home(Model redisModel, HttpSession redisSession) {
@@ -38,6 +43,7 @@ public class SpringSessionController {
 			redisRequest.getSession().setAttribute("REDIS_SESSION_MESSAGES", msgs);
 		}
 		msgs.add(msg);
+		logger.info("message:" + msg);
 		redisRequest.getSession().setAttribute("REDIS_SESSION_MESSAGES", msgs);
 		return "redirect:/";
 	}
