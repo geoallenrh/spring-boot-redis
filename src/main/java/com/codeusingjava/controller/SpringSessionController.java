@@ -9,6 +9,10 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.net.InetAddress;
+
+import java.time.LocalTime;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,13 +28,18 @@ public class SpringSessionController {
 	public String home(Model redisModel, HttpSession redisSession) {
 		@SuppressWarnings("unchecked")
 		List<String> messages = (List<String>) redisSession.getAttribute("REDIS_SESSION_MESSAGES");
+		Integer counter = (Integer) redisSession.getAttribute("REDIS_SESSION_COUNTER");
+		
 
-		if (messages == null) {
+		if (messages == null && counter == null ) {
 			messages = new ArrayList<>();
+			counter = new Integer(0);
 		}
+
 		redisModel.addAttribute("sessionMessages", messages);
 		redisModel.addAttribute("sessionId", redisSession.getId());
-
+		redisModel.addAttribute("counter", counter.toString());
+		
 		return "index";
 	}
 
@@ -38,19 +47,60 @@ public class SpringSessionController {
 	public String persistMessage(@RequestParam("msg") String msg, HttpServletRequest redisRequest) {
 		@SuppressWarnings("unchecked")
 		List<String> msgs = (List<String>) redisRequest.getSession().getAttribute("REDIS_SESSION_MESSAGES");
-		if (msgs == null) {
+		Integer counter = (Integer) redisRequest.getSession().getAttribute("REDIS_SESSION_COUNTER");
+		if (msgs == null && counter == null) {
 			msgs = new ArrayList<>();
 			redisRequest.getSession().setAttribute("REDIS_SESSION_MESSAGES", msgs);
+			msgs.add(msg);
+
+			counter = new Integer(0);
+			redisRequest.getSession().setAttribute("REDIS_SESSION_COUNTER", counter);
 		}
-		msgs.add(msg);
-		logger.info("message:" + msg);
+		else {
+		// do we want to use this?
+		String oldMessage = msgs.get(0);
+		counter = counter.intValue() + 1;
+		logger.info("Counter: " + counter);
+		String newMessage = msg + ":" + counter;
+		msgs.set(0, newMessage);
+		
+		}
+
+
+		logger.info("SessionID : " + redisRequest.getSession().getId());
+		logger.info(getHostname() + ":" + msg);
 		redisRequest.getSession().setAttribute("REDIS_SESSION_MESSAGES", msgs);
+		redisRequest.getSession().setAttribute("REDIS_SESSION_COUNTER", counter);
 		return "redirect:/";
 	}
+
+
+
+
 
 	@PostMapping("/destroy")
 	public String destroySession(HttpServletRequest redisRequest) {
 		redisRequest.getSession().invalidate();
 		return "redirect:/";
+	}
+
+	private String getHostname() {
+
+		// obtain a hostname. First try to get the host name from docker container (from the "HOSTNAME" environment variable)
+		String hostName = System.getenv("HOSTNAME");
+
+		// get the os name
+		String os = System.getProperty("os.name");
+
+		if(hostName == null || hostName.isEmpty()) {
+			try {
+				InetAddress addr = InetAddress.getLocalHost();
+				hostName = addr.getHostName();
+			} catch (Exception e) {
+				System.err.println(e);
+				hostName = "Unknow";
+			}
+		}
+		return hostName;
 	}
 }

@@ -18,9 +18,14 @@
 		</ul>
 	</div>
 	<div>
+		<h2>Counter</h2>
+		Current Counter is <span th:text="${counter}" />
+	</div>
+	<div>
 		<h2>Session ID</h2>
 		Current Session ID is <span th:text="${sessionId}" />
 	</div>
+	
 	<div>
 		<form th:action="@{/destroy}" method="post">
 			<input type="submit" value="Destroy Session" />
