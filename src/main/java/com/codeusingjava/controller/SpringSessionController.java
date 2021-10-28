@@ -34,6 +34,7 @@ public class SpringSessionController {
 		if (messages == null && counter == null ) {
 			messages = new ArrayList<>();
 			counter = new Integer(0);
+			logger.info("Counter: " + counter);
 		}
 
 		redisModel.addAttribute("sessionMessages", messages);
@@ -74,6 +75,32 @@ public class SpringSessionController {
 		return "redirect:/";
 	}
 
+	@GetMapping("/counter")
+	public String counter(HttpServletRequest redisRequest) {
+		@SuppressWarnings("unchecked")
+		
+		Integer counter = (Integer) redisRequest.getSession().getAttribute("REDIS_SESSION_COUNTER");
+		if (counter == null) {
+		
+			counter = new Integer(0);
+			redisRequest.getSession().setAttribute("REDIS_SESSION_COUNTER", counter);
+		}
+		else {
+		counter = counter.intValue() + 1;
+		logger.info("Counter: " + counter);
+		
+		}
+
+		logger.info("SessionID : " + redisRequest.getSession().getId());
+		logger.info(getHostname() + ":" + counter);
+		
+		redisRequest.getSession().setAttribute("REDIS_SESSION_COUNTER", counter);
+		return "redirect:/";
+	}
+
+
+
+
 
 
 
@@ -81,6 +108,7 @@ public class SpringSessionController {
 	@PostMapping("/destroy")
 	public String destroySession(HttpServletRequest redisRequest) {
 		redisRequest.getSession().invalidate();
+		logger.info("Session Invalidated");
 		return "redirect:/";
 	}
 
