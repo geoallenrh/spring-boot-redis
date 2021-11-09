@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javassist.expr.NewArray;
+
 @Controller
 public class SpringSessionController {
 
@@ -27,17 +29,26 @@ public class SpringSessionController {
 	@GetMapping("/")
 	public String home(Model redisModel, HttpSession redisSession) {
 		@SuppressWarnings("unchecked")
+		
+		// messages are used if you want to keep adding to the session
 		List<String> messages = (List<String>) redisSession.getAttribute("REDIS_SESSION_MESSAGES");
+
+		// single message is used to demostrate ability to explicitly update a single message
+		String message = (String) redisSession.getAttribute("REDIS_SESSION_MESSAGE");
+	
+		//automatically update a single entry
 		Integer counter = (Integer) redisSession.getAttribute("REDIS_SESSION_COUNTER");
 		
 
-		if (messages == null && counter == null ) {
+		if (messages == null && counter == null && message == null) {
 			messages = new ArrayList<>();
 			counter = new Integer(0);
+			message = new String();
 			logger.info("Counter: " + counter);
 		}
 
 		redisModel.addAttribute("sessionMessages", messages);
+		redisModel.addAttribute("sessionMessage", message);
 		redisModel.addAttribute("sessionId", redisSession.getId());
 		redisModel.addAttribute("counter", counter.toString());
 		
@@ -57,20 +68,47 @@ public class SpringSessionController {
 			counter = new Integer(0);
 			redisRequest.getSession().setAttribute("REDIS_SESSION_COUNTER", counter);
 		}
+		
 		else {
 		// do we want to use this?
-		String oldMessage = msgs.get(0);
+		msgs.add(msg);
 		counter = counter.intValue() + 1;
-		logger.info("Counter: " + counter);
-		String newMessage = msg + ":" + counter;
-		msgs.set(0, newMessage);
-		
 		}
 
-
+		logger.info("Counter: " + counter);
 		logger.info("SessionID : " + redisRequest.getSession().getId());
 		logger.info(getHostname() + ":" + msg);
 		redisRequest.getSession().setAttribute("REDIS_SESSION_MESSAGES", msgs);
+		redisRequest.getSession().setAttribute("REDIS_SESSION_COUNTER", counter);
+		return "redirect:/";
+	}
+
+	@PostMapping("/updateMessage")
+	public String updateMessage(@RequestParam("msg") String newMessage, HttpServletRequest redisRequest) {
+		@SuppressWarnings("unchecked")
+		String message = (String) redisRequest.getSession().getAttribute("REDIS_SESSION_MESSAGE");
+		Integer counter = (Integer) redisRequest.getSession().getAttribute("REDIS_SESSION_COUNTER");
+		if (message == null && counter == null) {
+			message = new String();
+			redisRequest.getSession().setAttribute("REDIS_SESSION_MESSAGE", message);
+			message = newMessage;
+
+			counter = new Integer(0);
+			redisRequest.getSession().setAttribute("REDIS_SESSION_COUNTER", counter);
+		}
+		else {
+		// do we want to use this?
+		String oldMessage = message;
+		logger.info("oldMessage: " + oldMessage);
+		counter = counter.intValue() + 1;
+		logger.info("Counter: " + counter);
+		//String newMessage = msg + ":" + counter;
+		
+		}
+
+		logger.info("SessionID : " + redisRequest.getSession().getId());
+		logger.info(getHostname() + ":" + newMessage);
+		redisRequest.getSession().setAttribute("REDIS_SESSION_MESSAGE", newMessage);
 		redisRequest.getSession().setAttribute("REDIS_SESSION_COUNTER", counter);
 		return "redirect:/";
 	}
