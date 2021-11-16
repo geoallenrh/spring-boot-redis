@@ -33,7 +33,7 @@ public class SpringSessionController {
 
 		if (messages == null && counter == null ) {
 			messages = new ArrayList<>();
-			counter = new Integer(0);
+			counter = Integer.valueOf(0);
 			logger.info("Counter: " + counter);
 		}
 
@@ -54,7 +54,7 @@ public class SpringSessionController {
 			redisRequest.getSession().setAttribute("REDIS_SESSION_MESSAGES", msgs);
 			msgs.add(msg);
 
-			counter = new Integer(0);
+			counter = Integer.valueOf(0);
 			redisRequest.getSession().setAttribute("REDIS_SESSION_COUNTER", counter);
 		}
 		else {
@@ -82,7 +82,7 @@ public class SpringSessionController {
 		Integer counter = (Integer) redisRequest.getSession().getAttribute("REDIS_SESSION_COUNTER");
 		if (counter == null) {
 		
-			counter = new Integer(0);
+			counter = Integer.valueOf(0);
 			redisRequest.getSession().setAttribute("REDIS_SESSION_COUNTER", counter);
 		}
 		else {
