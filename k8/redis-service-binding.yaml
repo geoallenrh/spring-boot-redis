@@ -1,0 +1,19 @@
+apiVersion: binding.operators.coreos.com/v1alpha1
+kind: ServiceBinding
+metadata:
+  name: spring-boot-session-redis
+  namespace: jr-demo   
+spec:
+  services:
+    - group: redis.redis.opstreelabs.in
+      version: v1beta1
+      kind: Redis
+      name: redis-standalone
+  application:
+    name: spring-boot-session-redis
+    group: apps
+    version: v1
+    resource: deployments
+  bindingPath:
+    bindAsFiles:false
+  

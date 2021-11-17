@@ -1,0 +1,21 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis-binding-demo-app
+  labels:
+    app: redis-binding-demo-app
+    app.kubernetes.io/component: redis-binding-demo-app
+    app.kubernetes.io/instance: redis-binding-demo-app
+    app.kubernetes.io/name: redis-binding-demo-app
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    name: redis-binding-demo-app
+    deployment: redis-binding-demo-app
+  
