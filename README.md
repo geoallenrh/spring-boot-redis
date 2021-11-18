@@ -1,7 +1,6 @@
 This branch outlines how to build and deploy an image that will use the Service Bindings through the Spring-Cloud-Bindings - https://github.com/spring-cloud/spring-cloud-bindings
 
 
-
 ## Background
 
 This site helped explain that the new Maven goal in 2.3 and above will use the Cloud Native Buildpak and include Spring-Cloud-Bindings.
@@ -24,29 +23,28 @@ As outlined in this article, https://developers.redhat.com/articles/2021/10/27/a
 
 1. Deploy the Redis OpsTree Operator through Operator Hub
 
-2. Deploy the Redis Standalone instance
+2. Create the Redis Secret
+`oc create -f redis-standalone-opstree-secret.yaml`
 
 3. Deploy prebuild Application from image - quay.io/geoallen/spring-boot-session-redis
 
 4. Use the visual tooling to Bind Application to Backend Service
 
-
 ## Direct Secret Reference
 
-For situations where the binding details are in a secret, they can be Bound to the application through the https://github.com/servicebinding/spec#direct-secret-reference.  This can be helpful when you are working with Backend Services are not provided by an Operator.  In this example, we used OpenShift template to define the appropriate secret. 
+For situations where the binding details are in a secret, they can be Bound to the application through the https://github.com/servicebinding/spec#direct-secret-reference.  
 
-1. Deploy (slightly modified template) in your current project.
+This can be helpful when you are working with Backend Services are not provided by an Operator.  In this example, we used OpenShift template to define the appropriate secret. 
 
+1. Deploy (slightly modified template) to your current project.
 `oc apply -f ./k8/redis-template.yaml`
 
 2. Deploy Redis via Template
 `oc new-app --template=redis-service-binding-persistent --param=DATABASE_SERVICE_NAME=redis-binding-demo`
 
 3. Deploy the application
-`oc new-app --docker-image=quay.io/geoallen/spring-boot-session-redis --name=redis-binding-demo-app`
+`oc create -f ./k8/spring-boot-deployment.yaml`
 
-4. The Redis template generated a Secret that can be used in the binding
+4. Deploy the Binding
 `oc apply -f ./k8/redis-demo-secret-service-binding.yaml`
 
-5. Create a Service and create a route
-`oc apply -f ./kb/redis-demo-app-service.yaml`
