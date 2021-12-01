@@ -1,0 +1,12 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: spring-boot-redis
+spec:
+  to:
+    kind: Service
+    name: spring-boot-redis
+    weight: 100
+  port:
+    targetPort: 8080
+  

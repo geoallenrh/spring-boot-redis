@@ -1,0 +1,839 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    operators.operatorframework.io/builder: operator-sdk-v1.3.0
+    operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+    olm.targetNamespaces: ''
+    operatorframework.io/properties: >-
+      {"properties":[{"type":"olm.gvk","value":{"group":"binding.operators.coreos.com","kind":"ServiceBinding","version":"v1alpha1"}},{"type":"olm.gvk","value":{"group":"servicebinding.io","kind":"ServiceBinding","version":"v1alpha3"}},{"type":"olm.gvk","value":{"group":"binding.operators.coreos.com","kind":"BindableKinds","version":"v1alpha1"}},{"type":"olm.package","value":{"packageName":"rh-service-binding-operator","version":"1.0.0"}}]}
+    repository: 'https://github.com/redhat-developer/service-binding-operator'
+    support: Service Binding Operator Community
+    operators.openshift.io/infrastructure-features: '["disconnected"]'
+    alm-examples: |-
+      [
+        {
+          "apiVersion": "binding.operators.coreos.com/v1alpha1",
+          "kind": "ServiceBinding",
+          "metadata": {
+            "name": "example-servicebinding"
+          },
+          "spec": {
+            "application": {
+              "group": "apps",
+              "name": "nodejs-rest-http-crud",
+              "resource": "deployments",
+              "version": "v1"
+            },
+            "services": [
+              {
+                "group": "postgresql.example.dev",
+                "kind": "Database",
+                "name": "pg-instance",
+                "version": "v1alpha1"
+              }
+            ]
+          }
+        },
+        {
+          "apiVersion": "servicebinding.io/v1alpha3",
+          "kind": "ServiceBinding",
+          "metadata": {
+            "name": "servicebinding-sample"
+          },
+          "spec": {
+            "application": {
+              "Kind": "Ddeployment",
+              "apiVersion": "apps/v1",
+              "name": "nodejs-rest-http-crud"
+            },
+            "service": {
+              "apiVersion": "postgresql.example.dev/v1alpha1",
+              "kind": "Database",
+              "name": "pg-instance"
+            }
+          }
+        }
+      ]
+    capabilities: Basic Install
+    olm.operatorNamespace: openshift-operators
+    containerImage: >-
+      registry.redhat.io/ocp-tools-4/service-binding-rhel8-operator@sha256:7694bc679e186e430fcf9ba011c0e1dd2de4fa9879bd8ecbc0c1b8903318ed40
+    categories: 'Developer Tools, OpenShift Optional, Integration & Delivery'
+    description: >-
+      An operator to support binding capabilities between imported apps and
+      operator backed services
+    olm.operatorGroup: global-operators
+  resourceVersion: '110292'
+  name: service-binding-operator.v1.0.0
+  generation: 1
+  managedFields:
+    - apiVersion: operators.coreos.com/v1alpha1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:operators.openshift.io/infrastructure-features': {}
+            'f:alm-examples': {}
+            'f:description': {}
+            'f:capabilities': {}
+            .: {}
+            'f:containerImage': {}
+            'f:categories': {}
+            'f:operators.operatorframework.io/project_layout': {}
+            'f:operatorframework.io/properties': {}
+            'f:operators.operatorframework.io/builder': {}
+            'f:support': {}
+            'f:repository': {}
+          'f:labels':
+            .: {}
+            'f:operatorframework.io/arch.amd64': {}
+            'f:operatorframework.io/arch.ppc64le': {}
+            'f:operatorframework.io/arch.s390x': {}
+        'f:spec':
+          'f:version': {}
+          'f:maturity': {}
+          'f:provider':
+            .: {}
+            'f:name': {}
+            'f:url': {}
+          'f:links': {}
+          'f:install':
+            .: {}
+            'f:spec':
+              .: {}
+              'f:clusterPermissions': {}
+              'f:deployments': {}
+              'f:permissions': {}
+            'f:strategy': {}
+          'f:maintainers': {}
+          'f:description': {}
+          'f:installModes': {}
+          'f:minKubeVersion': {}
+          'f:icon': {}
+          'f:customresourcedefinitions':
+            .: {}
+            'f:owned': {}
+          .: {}
+          'f:relatedImages': {}
+          'f:cleanup':
+            .: {}
+            'f:enabled': {}
+          'f:apiservicedefinitions': {}
+          'f:replaces': {}
+          'f:displayName': {}
+          'f:webhookdefinitions': {}
+          'f:keywords': {}
+      manager: catalog
+      operation: Update
+    - apiVersion: operators.coreos.com/v1alpha1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:olm.operatorGroup': {}
+            'f:olm.operatorNamespace': {}
+            'f:olm.targetNamespaces': {}
+          'f:labels':
+            'f:olm.api.1194832194fe0425': {}
+            'f:olm.api.65bbb91f940668a5': {}
+            'f:olm.api.beb3c1939f5b75dd': {}
+            'f:operators.coreos.com/rh-service-binding-operator.openshift-operators': {}
+      manager: olm
+      operation: Update
+    - apiVersion: operators.coreos.com/v1alpha1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:lastUpdateTime': {}
+          'f:requirementStatus': {}
+          'f:phase': {}
+          'f:certsRotateAt': {}
+          'f:certsLastUpdated': {}
+          'f:lastTransitionTime': {}
+          'f:conditions': {}
+          .: {}
+          'f:cleanup': {}
+          'f:message': {}
+          'f:reason': {}
+      manager: olm
+      operation: Update
+      subresource: status
+  namespace: openshift-operators
+  labels:
+    olm.api.1194832194fe0425: provided
+    olm.api.65bbb91f940668a5: provided
+    olm.api.beb3c1939f5b75dd: provided
+    operatorframework.io/arch.amd64: supported
+    operatorframework.io/arch.ppc64le: supported
+    operatorframework.io/arch.s390x: supported
+    operators.coreos.com/rh-service-binding-operator.openshift-operators: ''
+spec:
+  customresourcedefinitions:
+    owned:
+      - description: >-
+          BindableKinds contains a list of bindable type (group, version, kind)
+          found in the cluster. It is cluster-scoped and there is only single
+          instance named 'bindable-kinds'.
+        displayName: Bindable Kinds
+        kind: BindableKinds
+        name: bindablekinds.binding.operators.coreos.com
+        version: v1alpha1
+      - description: >-
+          Service Binding expresses intent to bind a backing service with an
+          application workload.
+        displayName: Service Binding
+        kind: ServiceBinding
+        name: servicebindings.binding.operators.coreos.com
+        version: v1alpha1
+      - description: >-
+          (Tech Preview) Service Binding implementing community specification
+          (https://github.com/k8s-service-bindings/spec) describing the
+          connection between a backing service and an application workload.
+          Available as tech preview but subjected to change in near future.
+        displayName: Service Binding (Spec API Tech Preview)
+        kind: ServiceBinding
+        name: servicebindings.servicebinding.io
+        version: v1alpha3
+  relatedImages:
+    - image: >-
+        registry.redhat.io/ocp-tools-4/service-binding-rhel8-operator@sha256:7694bc679e186e430fcf9ba011c0e1dd2de4fa9879bd8ecbc0c1b8903318ed40
+      name: >-
+        service-binding-rhel8-operator-7694bc679e186e430fcf9ba011c0e1dd2de4fa9879bd8ecbc0c1b8903318ed40-annotation
+    - image: >-
+        registry.redhat.io/ocp-tools-4/service-binding-rhel8-operator@sha256:7694bc679e186e430fcf9ba011c0e1dd2de4fa9879bd8ecbc0c1b8903318ed40
+      name: manager
+  cleanup:
+    enabled: false
+  apiservicedefinitions: {}
+  webhookdefinitions:
+    - generateName: vservicebinding.kb.io
+      containerPort: 443
+      sideEffects: None
+      deploymentName: service-binding-operator
+      targetPort: 9443
+      rules:
+        - apiGroups:
+            - binding.operators.coreos.com
+          apiVersions:
+            - v1alpha1
+          operations:
+            - CREATE
+            - UPDATE
+          resources:
+            - servicebindings
+      type: ValidatingAdmissionWebhook
+      admissionReviewVersions:
+        - v1beta1
+      webhookPath: /validate-binding-operators-coreos-com-v1alpha1-servicebinding
+      failurePolicy: Fail
+    - generateName: vspecservicebinding.kb.io
+      containerPort: 443
+      sideEffects: None
+      deploymentName: service-binding-operator
+      targetPort: 9443
+      rules:
+        - apiGroups:
+            - servicebinding.io
+          apiVersions:
+            - v1alpha3
+          operations:
+            - CREATE
+            - UPDATE
+          resources:
+            - servicebindings
+      type: ValidatingAdmissionWebhook
+      admissionReviewVersions:
+        - v1beta1
+      webhookPath: /validate-servicebinding-io-v1alpha3-servicebinding
+      failurePolicy: Fail
+    - generateName: mservicebinding.kb.io
+      containerPort: 443
+      sideEffects: None
+      deploymentName: service-binding-operator
+      targetPort: 9443
+      rules:
+        - apiGroups:
+            - binding.operators.coreos.com
+          apiVersions:
+            - v1alpha1
+          operations:
+            - CREATE
+            - UPDATE
+          resources:
+            - servicebindings
+      type: MutatingAdmissionWebhook
+      admissionReviewVersions:
+        - v1beta1
+      webhookPath: /mutate-servicebinding
+      failurePolicy: Fail
+    - generateName: mspec-servicebinding.kb.io
+      containerPort: 443
+      sideEffects: None
+      deploymentName: service-binding-operator
+      targetPort: 9443
+      rules:
+        - apiGroups:
+            - servicebinding.io
+          apiVersions:
+            - v1alpha3
+          operations:
+            - CREATE
+            - UPDATE
+          resources:
+            - servicebindings
+      type: MutatingAdmissionWebhook
+      admissionReviewVersions:
+        - v1beta1
+      webhookPath: /mutate-servicebinding
+      failurePolicy: Fail
+  keywords:
+    - ''
+  displayName: Service Binding Operator
+  provider:
+    name: Red Hat
+    url: redhat.com
+  maturity: candidate
+  installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+  version: 1.0.0
+  icon:
+    - base64data: >-
+        PHN2ZyB3aWR0aD0iMzIuODgybW0iIGhlaWdodD0iMjIuNjI3bW0iIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMyLjg4MiAyMi42MjciIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJtYXRyaXgoLS4xNzE4OSAwIDAgLS4xNzE4OSAzNC40OSAyNS43NzMpIj48ZyBmaWxsPSIjODhkNjVkIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgtMS41MzkyIDAgMCAtMS41MzkyIDM3Ny4zOSAzMTEuMykiIGQ9Im0yMDEuNzcgMTA0LjczYy0xMC4wNjQgMC0xOC4xNjYgOC4xMDIyLTE4LjE2NiAxOC4xNjZ2NDguOTUzYzAgMTAuMDY0IDguMTAyMiAxOC4xNjYgMTguMTY2IDE4LjE2NmgxOS4xN2MxMC4wNjQgMCAxOC4xNjYtOC4xMDIyIDE4LjE2Ni0xOC4xNjZ2LTQ4Ljk1M2MwLTEwLjA2NC04LjEwMjItMTguMTY2LTE4LjE2Ni0xOC4xNjZ6bS01LjQzMTYgMTIuOTNjMy44MjAyIDAuMTY0NjcgNi43ODY0IDMuMzkwMyA2LjYzMDkgNy4yMTA5LTAuMTU1MzUgMy44MjA4LTMuMzc0MSA2Ljc5NS03LjE5NTMgNi42NDg0LTMuODIxNS0wLjE0NzAzLTYuODAyOC0zLjM1OTgtNi42NjQxLTcuMTgxNmwyZS0zIC0wLjA2MDVjMC4xNzE4OS0zLjgyMTIgMy40MDUxLTYuNzgxNyA3LjIyNjYtNi42MTcyem0wIDI0LjU1N2MzLjgyMDIgMC4xNjQ2NyA2Ljc4NjQgMy4zOTAzIDYuNjMwOSA3LjIxMDktMC4xNTUzNSAzLjgyMDgtMy4zNzQxIDYuNzk1LTcuMTk1MyA2LjY0ODQtMy44MjE1LTAuMTQ3MDMtNi44MDI4LTMuMzU5OC02LjY2NDEtNy4xODE2bDJlLTMgLTAuMDYwNWMwLjE3MTg5LTMuODIxMiAzLjQwNTEtNi43ODE3IDcuMjI2Ni02LjYxNzJ6bTAgMjQuNTU3YzMuODIwMiAwLjE2NDY3IDYuNzg2NCAzLjM5MDMgNi42MzA5IDcuMjEwOS0wLjE1NTM0IDMuODIwOC0zLjM3NDEgNi43OTUtNy4xOTUzIDYuNjQ4NC0zLjgyMTUtMC4xNDcwMy02LjgwMjgtMy4zNTk4LTYuNjY0MS03LjE4MTZsMmUtMyAtMC4wNjA1YzAuMTcxODktMy44MjEyIDMuNDA1MS02Ljc4MTcgNy4yMjY2LTYuNjE3MnoiLz48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgtMS41MzkyIDAgMCAtMS41MzkyIDM3Ny4zOSAzMTEuMykiIGQ9Im0xMTQuODMgMTA1LjIxdjg1LjAzOWg1NS4yNTR2LTg1LjAzOXptNDMuMTE1IDEyLjQ1MWMzLjgyMSAwLjE2MzYzIDYuNzg4MyAzLjM4OTYgNi42MzI4IDcuMjEwOS0wLjE1NTM0IDMuODIxNi0zLjM3NTMgNi43OTYxLTcuMTk3MyA2LjY0ODQtMy44MjE1LTAuMTQ3MDMtNi44MDI4LTMuMzU5OC02LjY2NDEtNy4xODE2bDRlLTMgLTAuMDYwNWMwLjE3MTktMy44MjA0IDMuNDAzOS02Ljc4MDYgNy4yMjQ2LTYuNjE3MnptMCAyNC41NTdjMy44MjEgMC4xNjM2MyA2Ljc4ODMgMy4zODk2IDYuNjMyOCA3LjIxMDktMC4xNTUzNCAzLjgyMTYtMy4zNzUzIDYuNzk2MS03LjE5NzMgNi42NDg0LTMuODIxNS0wLjE0NzAzLTYuODAyOC0zLjM1OTgtNi42NjQxLTcuMTgxNmw0ZS0zIC0wLjA2MDVjMC4xNzE5LTMuODIwNCAzLjQwMzktNi43ODA2IDcuMjI0Ni02LjYxNzJ6bTAgMjQuNTU3YzMuODIxIDAuMTYzNjMgNi43ODgzIDMuMzg5NiA2LjYzMjggNy4yMTA5LTAuMTU1MzMgMy44MjE2LTMuMzc1MyA2Ljc5NjEtNy4xOTczIDYuNjQ4NC0zLjgyMTUtMC4xNDcwMy02LjgwMjgtMy4zNTk4LTYuNjY0MS03LjE4MTZsNGUtMyAtMC4wNjA1YzAuMTcxOS0zLjgyMDQgMy40MDM5LTYuNzgwNiA3LjIyNDYtNi42MTcyeiIvPjwvZz48ZyBmaWxsPSIjNjJiYjJmIj48cmVjdCB4PSI3NS4wMzIiIHk9IjExNS4yMyIgd2lkdGg9IjU5LjkzNSIgaGVpZ2h0PSI4LjU3NDQiLz48cmVjdCB4PSI3NS4wMzIiIHk9Ijc3LjQzNiIgd2lkdGg9IjU5LjkzNSIgaGVpZ2h0PSI4LjU3NDQiLz48cmVjdCB4PSI3NS4wMzIiIHk9IjM5LjYzOCIgd2lkdGg9IjU5LjkzNSIgaGVpZ2h0PSI4LjU3NDQiLz48L2c+PC9nPjwvc3ZnPgo=
+      mediatype: image/svg+xml
+  minKubeVersion: 1.16.0
+  links:
+    - name: Documentation
+      url: 'https://redhat-developer.github.io/service-binding-operator'
+  install:
+    spec:
+      clusterPermissions:
+        - rules:
+            - apiGroups:
+                - ''
+              resources:
+                - configmaps
+                - endpoints
+                - pods
+                - secrets
+                - services
+              verbs:
+                - get
+                - list
+            - apiGroups:
+                - ''
+              resources:
+                - pods
+                - secrets
+              verbs:
+                - patch
+                - update
+            - apiGroups:
+                - ''
+              resources:
+                - secrets
+              verbs:
+                - create
+            - apiGroups:
+                - apiextensions.k8s.io
+              resources:
+                - customresourcedefinitions
+              verbs:
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - apps
+              resources:
+                - daemonsets
+                - deployments
+                - replicasets
+                - statefulsets
+              verbs:
+                - get
+                - list
+                - patch
+                - update
+            - apiGroups:
+                - apps.openshift.io
+              resources:
+                - deploymentconfigs
+              verbs:
+                - get
+                - list
+                - patch
+                - update
+            - apiGroups:
+                - authentication.k8s.io
+              resources:
+                - tokenreviews
+              verbs:
+                - create
+            - apiGroups:
+                - authorization.k8s.io
+              resources:
+                - selfsubjectaccessreviews
+              verbs:
+                - create
+            - apiGroups:
+                - authorization.k8s.io
+              resources:
+                - subjectaccessreviews
+              verbs:
+                - create
+            - apiGroups:
+                - binding.operators.coreos.com
+              resources:
+                - bindablekinds
+              verbs:
+                - create
+                - delete
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - binding.operators.coreos.com
+              resources:
+                - bindablekinds/finalizers
+              verbs:
+                - update
+            - apiGroups:
+                - binding.operators.coreos.com
+              resources:
+                - bindablekinds/status
+              verbs:
+                - get
+                - patch
+                - update
+            - apiGroups:
+                - binding.operators.coreos.com
+              resources:
+                - servicebindings
+              verbs:
+                - create
+                - delete
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - binding.operators.coreos.com
+              resources:
+                - servicebindings/finalizers
+              verbs:
+                - update
+            - apiGroups:
+                - binding.operators.coreos.com
+              resources:
+                - servicebindings/status
+              verbs:
+                - get
+                - patch
+                - update
+            - apiGroups:
+                - operators.coreos.com
+              resources:
+                - clusterserviceversions
+              verbs:
+                - get
+                - list
+            - apiGroups:
+                - route.openshift.io
+              resources:
+                - routes
+              verbs:
+                - get
+                - list
+            - apiGroups:
+                - servicebinding.io
+              resources:
+                - servicebindings
+              verbs:
+                - create
+                - delete
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - servicebinding.io
+              resources:
+                - servicebindings/finalizers
+              verbs:
+                - update
+            - apiGroups:
+                - servicebinding.io
+              resources:
+                - servicebindings/status
+              verbs:
+                - get
+                - patch
+                - update
+          serviceAccountName: service-binding-operator
+      deployments:
+        - name: service-binding-operator
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                control-plane: service-binding-controller-manager
+            strategy: {}
+            template:
+              metadata:
+                creationTimestamp: null
+                labels:
+                  control-plane: service-binding-controller-manager
+              spec:
+                containers:
+                  - resources: {}
+                    readinessProbe:
+                      httpGet:
+                        path: /readyz
+                        port: 8081
+                      initialDelaySeconds: 5
+                      periodSeconds: 10
+                    name: manager
+                    command:
+                      - /manager
+                    livenessProbe:
+                      httpGet:
+                        path: /healthz
+                        port: 8081
+                      initialDelaySeconds: 15
+                      periodSeconds: 20
+                    env:
+                      - name: WATCH_NAMESPACE
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: 'metadata.annotations[''olm.targetNamespaces'']'
+                    ports:
+                      - containerPort: 9443
+                        name: webhook-server
+                        protocol: TCP
+                    volumeMounts:
+                      - mountPath: /tmp/k8s-webhook-server/serving-certs
+                        name: cert
+                        readOnly: true
+                    image: >-
+                      registry.redhat.io/ocp-tools-4/service-binding-rhel8-operator@sha256:7694bc679e186e430fcf9ba011c0e1dd2de4fa9879bd8ecbc0c1b8903318ed40
+                    args:
+                      - '--leader-elect'
+                serviceAccountName: service-binding-operator
+                terminationGracePeriodSeconds: 10
+                volumes:
+                  - name: cert
+                    secret:
+                      defaultMode: 420
+                      secretName: service-binding-operator-service-cert
+      permissions:
+        - rules:
+            - apiGroups:
+                - ''
+                - coordination.k8s.io
+              resources:
+                - configmaps
+                - leases
+              verbs:
+                - get
+                - list
+                - watch
+                - create
+                - update
+                - patch
+                - delete
+            - apiGroups:
+                - ''
+              resources:
+                - events
+              verbs:
+                - create
+                - patch
+          serviceAccountName: service-binding-operator
+    strategy: deployment
+  maintainers:
+    - email: service-binding-support@redhat.com
+      name: Openshift Application Services
+  description: >
+    The Service Binding Operator manages the data plane for applications and
+    backing services. It enables developers to connect their
+
+    applications to backing services (REST API, databases, event buses and
+    others) with a consistent and predictable
+
+    experience. The operator reads data made available by the control plane of
+    backing services and projects the bindings
+
+    data to applications either as accessible files mounted into the
+    application’s container or environment variables.
+
+
+    In Kubernetes, each service suggests a different way to access their secrets
+    and developers will consume them in their
+
+    application in a custom way. While this provides a good deal of flexibility,
+    it also creates discrepancies and
+
+    complexity dealing with each specific services, which leads large
+    development teams to lose overall velocity.
+
+
+    Service Binding Operator removes the error-prone manual configuration of
+    binding information, provides service operators
+
+    a low-touch administrative experience to provision and manage access to
+    services and enriches development lifecycle.
+
+
+    For additional details refer to the project
+    [documentation](https://redhat-developer.github.io/service-binding-operator).
+
+
+    Get Started with Service Binding Operator
+
+    * Find out about SBO’s
+    [prerequisites](https://redhat-developer.github.io/service-binding-operator/userguide/getting-started/installing-service-binding.html).
+
+    * Refer to the [Quick Start
+    Guide](https://redhat-developer.github.io/service-binding-operator/userguide/getting-started/quick-start.html)
+    to see SBO in action in a simple scenario.
+
+
+    Need Help
+
+    * Raise a ticket for bugs, features and enhancement
+    [here](https://github.com/redhat-developer/service-binding-operator/)
+
+
+    Licence
+
+    * Service Binding Operator is licensed under [Apache License
+    2.0](https://github.com/redhat-developer/service-binding-operator/blob/master/LICENSE)
+
+
+    Service Binding Operator is providing and supporting two different APIs.
+
+    * `binding.operators.coreos.com/v1alpha1`: This API is compliant with the
+    Service Binding specification. It is fully supported and considered as the
+    mature API. It’s the API we recommend in production environments.
+
+    * `servicebinding.io/v1alpha3`: This API is the one defined in the Service
+    Binding specification. The specification is still evolving and maturing, as
+    a result the API might change in the future. We recommend you to carefully
+    use that API for testing purposes and preparing your integration to become
+    fully compliant with the specification. It is available in Service Binding
+    Operator 1.x, as Tech Preview.
+
+
+    We’ll consider supporting only the API from the specification, once the
+    Service Binding specification will be officially GA. Of course, that will be
+    a breaking change and handle in a safe way for you.
+  replaces: service-binding-operator.v0.11.0
+status:
+  reason: InstallSucceeded
+  cleanup: {}
+  message: install strategy completed with no errors
+  lastUpdateTime: '2021-11-22T21:19:47Z'
+  requirementStatus:
+    - group: operators.coreos.com
+      kind: ClusterServiceVersion
+      message: >-
+        CSV minKubeVersion (1.16.0) less than server version
+        (v1.22.0-rc.0+894a78b)
+      name: service-binding-operator.v1.0.0
+      status: Present
+      version: v1alpha1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      message: CRD is present and Established condition is true
+      name: bindablekinds.binding.operators.coreos.com
+      status: Present
+      uuid: ff50a2a6-5248-42eb-930c-67003d0f2e19
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      message: CRD is present and Established condition is true
+      name: servicebindings.binding.operators.coreos.com
+      status: Present
+      uuid: c518ef79-d7a1-4542-80fc-a5c96d07e2d1
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      message: CRD is present and Established condition is true
+      name: servicebindings.servicebinding.io
+      status: Present
+      uuid: fae24abe-7e7c-406c-835b-3ff857f4f75e
+      version: v1
+    - dependents:
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","watch","create","update","patch","delete"],"apiGroups":["","coordination.k8s.io"],"resources":["configmaps","leases"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","patch"],"apiGroups":[""],"resources":["events"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list"],"apiGroups":[""],"resources":["configmaps","endpoints","pods","secrets","services"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["patch","update"],"apiGroups":[""],"resources":["pods","secrets"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create"],"apiGroups":[""],"resources":["secrets"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list","patch","update","watch"],"apiGroups":["apiextensions.k8s.io"],"resources":["customresourcedefinitions"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list","patch","update"],"apiGroups":["apps"],"resources":["daemonsets","deployments","replicasets","statefulsets"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list","patch","update"],"apiGroups":["apps.openshift.io"],"resources":["deploymentconfigs"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create"],"apiGroups":["authentication.k8s.io"],"resources":["tokenreviews"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create"],"apiGroups":["authorization.k8s.io"],"resources":["selfsubjectaccessreviews"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create"],"apiGroups":["authorization.k8s.io"],"resources":["subjectaccessreviews"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create","delete","get","list","patch","update","watch"],"apiGroups":["binding.operators.coreos.com"],"resources":["bindablekinds"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["update"],"apiGroups":["binding.operators.coreos.com"],"resources":["bindablekinds/finalizers"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","patch","update"],"apiGroups":["binding.operators.coreos.com"],"resources":["bindablekinds/status"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create","delete","get","list","patch","update","watch"],"apiGroups":["binding.operators.coreos.com"],"resources":["servicebindings"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["update"],"apiGroups":["binding.operators.coreos.com"],"resources":["servicebindings/finalizers"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","patch","update"],"apiGroups":["binding.operators.coreos.com"],"resources":["servicebindings/status"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list"],"apiGroups":["operators.coreos.com"],"resources":["clusterserviceversions"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list"],"apiGroups":["route.openshift.io"],"resources":["routes"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create","delete","get","list","patch","update","watch"],"apiGroups":["servicebinding.io"],"resources":["servicebindings"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["update"],"apiGroups":["servicebinding.io"],"resources":["servicebindings/finalizers"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","patch","update"],"apiGroups":["servicebinding.io"],"resources":["servicebindings/status"]}
+          status: Satisfied
+          version: v1
+      group: ''
+      kind: ServiceAccount
+      message: ''
+      name: service-binding-operator
+      status: Present
+      version: v1

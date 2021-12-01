@@ -20,30 +20,36 @@ docker run --env spring.redis.host=host.docker.internal --rm -p 8080:8080 spring
 ## Using Operator Based Backend Service
 As outlined in this article, https://developers.redhat.com/articles/2021/10/27/announcing-service-binding-operator-10-ga#projecting_and_using_the_binding_data_in_the_application, The OpsTree Redis Operator supports the Service Registry for Service Binding
 
+## Prereqs 
+Service Binding & Redis OpsTree Operators are Deployed.
 
-1. Deploy the Redis OpsTree Operator through Operator Hub
+
+1. Create project
+oc new-project sbo-demo
 
 2. Create the Redis Secret
 `oc create -f redis-standalone-opstree-secret.yaml`
 
-3. Deploy prebuild Application from image - quay.io/geoallen/spring-boot-session-redis
+3. Deploy Redis Cluster from Operator
 
-4. Use the visual tooling to Bind Application to Backend Service
+4. Deploy prebuilt application from image - quay.io/geoallen/spring-boot-session-redis
+
+5. Use the visual tooling to Bind Application to Backend Service
 
 ## Direct Secret Reference
 
-For situations where the binding details are in a secret, they can be Bound to the application through the https://github.com/servicebinding/spec#direct-secret-reference.  
+When the Backend Services are not provided by an Operator.  In this example, we used a template to define the properly defined secret.
 
-This can be helpful when you are working with Backend Services are not provided by an Operator.  In this example, we used OpenShift template to define the appropriate secret. 
+For situations where the binding details are in a secret, they can be Bound to the application through the https://github.com/servicebinding/spec#direct-secret-reference.  
 
 1. Deploy (slightly modified template) to your current project.
 `oc apply -f ./k8/redis-template.yaml`
 
-2. Deploy Redis via Template
+2. Deploy Redis via Template (Either in Console or CLI)
 `oc new-app --template=redis-service-binding-persistent --param=DATABASE_SERVICE_NAME=redis-binding-demo`
 
-3. Deploy the application
-`oc create -f ./k8/spring-boot-deployment.yaml`
+3. Deploy the App
+`oc apply -f ./k8/spring-boot-redis-deployment-route-service.yaml`
 
 4. Deploy the Binding
 `oc apply -f ./k8/redis-demo-secret-service-binding.yaml`
